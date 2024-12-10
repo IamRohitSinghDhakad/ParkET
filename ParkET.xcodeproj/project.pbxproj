@@ -6,7 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D685CE2E20389A273DC85843 /* Pods_ParkET.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14604DFEDE189ADDCFAB373B /* Pods_ParkET.framework */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		14604DFEDE189ADDCFAB373B /* Pods_ParkET.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ParkET.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		331112BD629D4360A8DA8824 /* Pods-ParkET.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParkET.release.xcconfig"; path = "Target Support Files/Pods-ParkET/Pods-ParkET.release.xcconfig"; sourceTree = "<group>"; };
+		49F4A84F54D0D689006D06BD /* Pods-ParkET.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ParkET.debug.xcconfig"; path = "Target Support Files/Pods-ParkET/Pods-ParkET.debug.xcconfig"; sourceTree = "<group>"; };
 		F988E9A22D08930A00C9C35C /* ParkET.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParkET.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -36,17 +43,38 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D685CE2E20389A273DC85843 /* Pods_ParkET.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		29E4CB73CE977DE88CF824B8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				49F4A84F54D0D689006D06BD /* Pods-ParkET.debug.xcconfig */,
+				331112BD629D4360A8DA8824 /* Pods-ParkET.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		E4A5ADF526D5CC5FF7129CE3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				14604DFEDE189ADDCFAB373B /* Pods_ParkET.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F988E9992D08930A00C9C35C = {
 			isa = PBXGroup;
 			children = (
 				F988E9A42D08930A00C9C35C /* ParkET */,
 				F988E9A32D08930A00C9C35C /* Products */,
+				29E4CB73CE977DE88CF824B8 /* Pods */,
+				E4A5ADF526D5CC5FF7129CE3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -65,9 +93,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F988E9B52D08930C00C9C35C /* Build configuration list for PBXNativeTarget "ParkET" */;
 			buildPhases = (
+				EC1D2003E73BCB803F698AF6 /* [CP] Check Pods Manifest.lock */,
 				F988E99E2D08930A00C9C35C /* Sources */,
 				F988E99F2D08930A00C9C35C /* Frameworks */,
 				F988E9A02D08930A00C9C35C /* Resources */,
+				E7AD8B37F9FEDCFB73A4B112 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -77,8 +107,6 @@
 				F988E9A42D08930A00C9C35C /* ParkET */,
 			);
 			name = ParkET;
-			packageProductDependencies = (
-			);
 			productName = ParkET;
 			productReference = F988E9A22D08930A00C9C35C /* ParkET.app */;
 			productType = "com.apple.product-type.application";
@@ -127,6 +155,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		E7AD8B37F9FEDCFB73A4B112 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ParkET/Pods-ParkET-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ParkET/Pods-ParkET-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ParkET/Pods-ParkET-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EC1D2003E73BCB803F698AF6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ParkET-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F988E99E2D08930A00C9C35C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -140,6 +210,7 @@
 /* Begin XCBuildConfiguration section */
 		F988E9B62D08930C00C9C35C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 49F4A84F54D0D689006D06BD /* Pods-ParkET.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -172,6 +243,7 @@
 		};
 		F988E9B72D08930C00C9C35C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 331112BD629D4360A8DA8824 /* Pods-ParkET.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
