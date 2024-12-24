@@ -20,7 +20,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dsY-rq-k05">
-                        <rect key="frame" x="0.0" y="5" width="426" height="132"/>
+                        <rect key="frame" x="0.0" y="5" width="426" height="120"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Zone" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8lu-2l-tKk">
                                 <rect key="frame" x="10" y="20" width="35" height="21"/>
@@ -93,7 +93,7 @@
                         <constraints>
                             <constraint firstItem="Lpz-rQ-DH0" firstAttribute="centerY" secondItem="skF-co-qXW" secondAttribute="centerY" id="4rP-z5-lOb"/>
                             <constraint firstItem="Lpz-rQ-DH0" firstAttribute="leading" secondItem="skF-co-qXW" secondAttribute="trailing" constant="5" id="CmQ-Cp-XH3"/>
-                            <constraint firstAttribute="height" constant="132" id="D85-ei-SQi"/>
+                            <constraint firstAttribute="height" constant="120" id="D85-ei-SQi"/>
                             <constraint firstAttribute="trailing" secondItem="YHW-AZ-u8I" secondAttribute="trailing" constant="10" id="Gf4-sf-Ujn"/>
                             <constraint firstItem="egq-bE-9n0" firstAttribute="top" secondItem="WUz-nN-tFg" secondAttribute="bottom" constant="2" id="J69-Dt-afu"/>
                             <constraint firstItem="WUz-nN-tFg" firstAttribute="leading" secondItem="dsY-rq-k05" secondAttribute="leading" constant="10" id="Mp3-cB-xNa"/>
@@ -119,6 +119,7 @@
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <point key="canvasLocation" x="164.8854961832061" y="50.70422535211268"/>
         </tableViewCell>
     </objects>

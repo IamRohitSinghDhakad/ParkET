@@ -12,18 +12,15 @@ class WelcoeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        
+    }
+    
+    @IBAction func btnOnDriver(_ sender: Any) {
         self.pushVc(viewConterlerId: "LoginViewController")
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    @IBAction func btnOnAttender(_ sender: Any) {
+        self.pushVc(viewConterlerId: "LoginWithMobileViewController")
     }
-    */
-
+    
 }
