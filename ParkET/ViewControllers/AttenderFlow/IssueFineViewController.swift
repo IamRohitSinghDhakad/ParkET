@@ -21,6 +21,7 @@ class IssueFineViewController: UIViewController {
     }
     
     @IBAction func btnOnBack(_ sender: Any) {
+        self.onBackPressed()
         
     }
     

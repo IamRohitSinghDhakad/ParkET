@@ -9,6 +9,14 @@ import UIKit
 
 class SignUpViewController: UIViewController {
 
+    @IBOutlet weak var tfFullName: UITextField!
+    @IBOutlet weak var tfEmail: UITextField!
+    @IBOutlet weak var tfMobile: UITextField!
+    @IBOutlet weak var tfPassword: UITextField!
+    
+    
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -16,11 +16,15 @@ class WelcoeViewController: UIViewController {
     }
     
     @IBAction func btnOnDriver(_ sender: Any) {
-        self.pushVc(viewConterlerId: "LoginViewController")
+        let vc = self.mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController")as! LoginViewController
+        vc.strType = "Driver"
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @IBAction func btnOnAttender(_ sender: Any) {
-        self.pushVc(viewConterlerId: "LoginWithMobileViewController")
+        let vc = self.mainStoryboard.instantiateViewController(withIdentifier: "LoginWithMobileViewController")as! LoginWithMobileViewController
+        vc.strType = "Attender"
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
 }

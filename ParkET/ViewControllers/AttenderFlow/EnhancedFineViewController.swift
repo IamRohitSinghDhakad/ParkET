@@ -25,6 +25,10 @@ class EnhancedFineViewController: UIViewController {
   
     @IBAction func btnOnSubmit(_ sender: Any) {
     }
+    
     @IBAction func btnAddImage(_ sender: Any) {
+        MediaPicker.shared.pickMedia(from: self) { image in
+            self.imgVw.image = image
+        }
     }
 }
