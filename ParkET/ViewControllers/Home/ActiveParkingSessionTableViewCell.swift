@@ -14,6 +14,8 @@ class ActiveParkingSessionTableViewCell: UITableViewCell {
     @IBOutlet weak var btnExtended: UIButton!
     @IBOutlet weak var lblShowTimer: UILabel!
     @IBOutlet weak var vwTimer: UIView!
+    @IBOutlet weak var lblAddrrss: UILabel!
+    @IBOutlet weak var lblZoneNumber: UILabel!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,7 +30,7 @@ class ActiveParkingSessionTableViewCell: UITableViewCell {
     
     // Method to configure the cell
        func configure(for row: Int) {
-           // Configure the cell with data based on the row index
+          
        }
     
     func toggleTimerVisibility() {

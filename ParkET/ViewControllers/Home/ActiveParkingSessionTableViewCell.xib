@@ -249,7 +249,9 @@
                 <outlet property="btnExtended" destination="1qF-72-ayz" id="5ad-vB-uQ2"/>
                 <outlet property="btnOnShowHideTimer" destination="YML-qO-nOl" id="WRh-1A-Vph"/>
                 <outlet property="btnStop" destination="qic-Ky-kNU" id="JaP-Sw-uxp"/>
+                <outlet property="lblAddrrss" destination="Ve0-Yn-e59" id="yxJ-gh-vau"/>
                 <outlet property="lblShowTimer" destination="UCC-ya-OmB" id="0vo-EC-Flh"/>
+                <outlet property="lblZoneNumber" destination="ayg-9W-U7Q" id="CFE-pZ-26R"/>
                 <outlet property="vwTimer" destination="JyC-ia-sRx" id="qNR-3M-3MG"/>
             </connections>
             <point key="canvasLocation" x="333.58778625954199" y="116.54929577464789"/>

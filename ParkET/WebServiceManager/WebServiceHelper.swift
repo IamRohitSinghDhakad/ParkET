@@ -22,13 +22,15 @@ struct WsUrl{
     static let url_Attender_login  = BASE_URL + "attender_login"
     static let url_get_booking = BASE_URL + "get_booking"
     static let url_ForgotPassword = BASE_URL + "forgot_password"
+    static let url_GetNotofication = BASE_URL + "get_notifications"
+    static let url_GetVehicle = BASE_URL + "get_vehicle"
     
     
     static let url_GetComments = BASE_URL + "get_comment"
     static let url_add_comment = BASE_URL + "add_comment"
     static let url_add_vote = BASE_URL + "add_vote"
     static let url_AddPost = BASE_URL + "add_post"
-    static let url_GetNotofication = BASE_URL + "get_notifications"
+   
     static let url_GetFavorite = BASE_URL + "get_favorite"
     static let url_DeletePost = BASE_URL + "delete_post"
     static let url_AddFavorite = BASE_URL + "add_favorite"

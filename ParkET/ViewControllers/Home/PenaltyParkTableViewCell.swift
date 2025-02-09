@@ -9,6 +9,14 @@ import UIKit
 
 class PenaltyParkTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var lblPendingAmountDesc: UILabel!
+    @IBOutlet weak var lblZoneNumber: UILabel!
+    @IBOutlet weak var lblBookedOn: UILabel!
+    @IBOutlet weak var lblZoneAddress: UILabel!
+    @IBOutlet weak var lblTotalPaidAmount: UILabel!
+    @IBOutlet weak var vwPayAmountButton: UIView!
+    @IBOutlet weak var btnPayNow: UIButton!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code

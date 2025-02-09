@@ -18,11 +18,11 @@ class BookingModel: NSObject {
     var mobile: String?
     var payments: [PaymentModel] = []
     var penalties: [PenaltyModel] = []
-    var pendingPenaltyAmount: Double = 0.0
+    var pendingPenaltyAmount: String?
     var remainingDays: Int?
     var startTime: String?
   // var status: String?
-    var totalPaidAmount: Double = 0.0
+    var totalPaidAmount: String?
     var totalPenaltyPaidAmount: Double = 0.0
     var userId: Int = 0
     var username: String?
@@ -31,6 +31,7 @@ class BookingModel: NSObject {
     var zone: String?
     var zoneAddress: String?
     var zoneId: Int = 0
+    var isTimerVisible = false
     
     init(from dictionary: [String: Any]) {
         super.init()
@@ -47,13 +48,31 @@ class BookingModel: NSObject {
         if let penaltiesArray = dictionary["penalties"] as? [[String: Any]] {
             penalties = penaltiesArray.map { PenaltyModel(from: $0) }
         }
-        pendingPenaltyAmount = Double(dictionary["pending_penalty_amount"] as? String ?? "0") ?? 0.0
+       // pendingPenaltyAmount = Double(dictionary["pending_penalty_amount"] as? String ?? "0") ?? 0.0
         remainingDays = dictionary["remaining_days"] as? Int
         startTime = dictionary["start_time"] as? String
         status = dictionary["status"] as? String ?? ""
-        hasPenalty = (dictionary["has_penalty"] as? Int ?? 0) == 1
-        totalPaidAmount = Double(dictionary["total_paid_amount"] as? String ?? "0") ?? 0.0
+        hasPenalty = (dictionary["has_penalty"] as? String ?? "0") == "1"
+        //totalPaidAmount = dictionary["total_paid_amount"] as! String
+        
+        if let total_PaidAmount = dictionary["total_paid_amount"]as? String{
+            self.totalPaidAmount = total_PaidAmount
+        }else if let total_PaidAmount = dictionary["total_paid_amount"]as? Int{
+            self.totalPaidAmount = "\(total_PaidAmount)"
+        }else if let total_PaidAmount = dictionary["total_paid_amount"] as? Double {
+            self.totalPaidAmount = String(format: "%.2f", total_PaidAmount)
+        }
+        
+        if let paid_penalty_Amount = dictionary["pending_penalty_amount"]as? String{
+            self.pendingPenaltyAmount = paid_penalty_Amount
+        }else if let paid_penalty_Amount = dictionary["pending_penalty_amount"]as? Int{
+            self.pendingPenaltyAmount = "\(paid_penalty_Amount)"
+        }else if let paid_penalty_Amount = dictionary["pending_penalty_amount"] as? Double {
+            self.pendingPenaltyAmount = String(format: "%.2f", paid_penalty_Amount)
+        }
+        
         totalPenaltyPaidAmount = Double(dictionary["total_penalty_paid_amount"] as? String ?? "0") ?? 0.0
+        
         userId = dictionary["user_id"] as? Int ?? 0
         username = dictionary["username"] as? String
         vehicleId = dictionary["vehicle_id"] as? Int ?? 0

@@ -776,8 +776,8 @@
                                     <constraint firstItem="w65-vf-fOf" firstAttribute="top" secondItem="NUs-Dl-VcR" secondAttribute="top" id="xcH-lN-4WN"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="KrX-Iv-tpg">
-                                <rect key="frame" x="0.0" y="77" width="320" height="491"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="80" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="KrX-Iv-tpg">
+                                <rect key="frame" x="0.0" y="77" width="320" height="442"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="NotificationTableViewCell" rowHeight="71" id="Q4w-xT-lqv" customClass="NotificationTableViewCell" customModule="ParkET" customModuleProvider="target">
@@ -788,10 +788,10 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xjL-CG-C4c">
-                                                    <rect key="frame" x="0.0" y="5" width="320" height="61"/>
+                                                    <rect key="frame" x="0.0" y="3" width="320" height="65"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="notification 2" translatesAutoresizingMaskIntoConstraints="NO" id="ZHo-cT-a1U">
-                                                            <rect key="frame" x="20" y="20.5" width="20" height="20"/>
+                                                            <rect key="frame" x="20" y="22.5" width="20" height="20"/>
                                                             <color key="tintColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="width" constant="20" id="RV2-XX-rVo"/>
@@ -799,7 +799,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="you have charged $15 for your booking at Zone 143 for Other fine" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JBE-OF-vEu">
-                                                            <rect key="frame" x="48" y="10" width="267" height="41"/>
+                                                            <rect key="frame" x="48" y="10" width="267" height="45"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                             <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -819,8 +819,8 @@
                                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="xjL-CG-C4c" secondAttribute="trailing" id="FpS-wg-i7C"/>
-                                                <constraint firstItem="xjL-CG-C4c" firstAttribute="top" secondItem="1Xo-zA-oEP" secondAttribute="top" constant="5" id="GTs-tU-h6t"/>
-                                                <constraint firstAttribute="bottom" secondItem="xjL-CG-C4c" secondAttribute="bottom" constant="5" id="eZw-XR-MSj"/>
+                                                <constraint firstItem="xjL-CG-C4c" firstAttribute="top" secondItem="1Xo-zA-oEP" secondAttribute="top" constant="3" id="GTs-tU-h6t"/>
+                                                <constraint firstAttribute="bottom" secondItem="xjL-CG-C4c" secondAttribute="bottom" constant="3" id="eZw-XR-MSj"/>
                                                 <constraint firstItem="xjL-CG-C4c" firstAttribute="leading" secondItem="1Xo-zA-oEP" secondAttribute="leading" id="gGe-pC-Uc9"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -842,7 +842,7 @@
                             <constraint firstItem="KrX-Iv-tpg" firstAttribute="top" secondItem="NUs-Dl-VcR" secondAttribute="bottom" id="3p1-bs-mCR"/>
                             <constraint firstItem="0pJ-Jt-uNw" firstAttribute="trailing" secondItem="NUs-Dl-VcR" secondAttribute="trailing" id="Ih6-zB-pa0"/>
                             <constraint firstItem="0pJ-Jt-uNw" firstAttribute="trailing" secondItem="KrX-Iv-tpg" secondAttribute="trailing" id="JBg-1d-jSH"/>
-                            <constraint firstAttribute="bottom" secondItem="KrX-Iv-tpg" secondAttribute="bottom" id="UPr-sT-8CA"/>
+                            <constraint firstItem="0pJ-Jt-uNw" firstAttribute="bottom" secondItem="KrX-Iv-tpg" secondAttribute="bottom" id="T0H-Qs-KRv"/>
                             <constraint firstItem="KrX-Iv-tpg" firstAttribute="leading" secondItem="G3D-gg-nrQ" secondAttribute="leading" id="hgX-0Q-Bpz"/>
                             <constraint firstItem="NUs-Dl-VcR" firstAttribute="top" secondItem="G3D-gg-nrQ" secondAttribute="top" id="twN-fW-Wqn"/>
                         </constraints>
@@ -2532,7 +2532,7 @@ Sessions Right Now</string>
                                                                                 <constraint firstAttribute="height" constant="21" id="wlh-kw-PGW"/>
                                                                             </constraints>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Audi (A6)" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MDD-eY-uhP">
@@ -2542,7 +2542,7 @@ Sessions Right Now</string>
                                                                                 <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="rT2-kh-Vjm"/>
                                                                             </constraints>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                                            <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                     </subviews>
@@ -2565,7 +2565,7 @@ Sessions Right Now</string>
                                                                                 <constraint firstAttribute="height" constant="21" id="Mng-Nt-jZc"/>
                                                                             </constraints>
                                                                             <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                                            <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                            <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <nil key="highlightedColor"/>
                                                                         </label>
                                                                     </subviews>
@@ -2674,7 +2674,7 @@ Sessions Right Now</string>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="DYK-iM-HSe">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <color key="tintColor" name="AppColor"/>
                         <color key="barTintColor" name="AppColor"/>
                         <color key="selectedImageTintColor" name="AppColor"/>

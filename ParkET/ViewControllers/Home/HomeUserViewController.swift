@@ -32,7 +32,7 @@ class HomeUserViewController: UIViewController {
     var currentTab: TabSelection = .active
     
     // Property to track visibility state of vwTimer for active tab
-    var activeTabStates: [CellState] = []
+    var activeTabStates: [BookingModel] = []
     var historyTabStates: [CellState] = []
     var penaltyTabStates: [CellState] = []
     
@@ -53,7 +53,7 @@ class HomeUserViewController: UIViewController {
         switch sender.tag {
         case 1:
             currentTab = .active
-            self.strStatus = "Booking"
+            self.strStatus = "Booked"
             self.strHasPenailty = ""
         case 2:
             currentTab = .history
@@ -81,7 +81,7 @@ class HomeUserViewController: UIViewController {
         // Update the state based on the current tab
         switch currentTab {
         case .active:
-            activeTabStates[indexPath.row].isTimerVisible.toggle()
+            self.activeBookings[indexPath.row].isTimerVisible.toggle()
         case .history:
             historyTabStates[indexPath.row].isTimerVisible.toggle()
         case .penalty:
@@ -111,19 +111,52 @@ extension HomeUserViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "ActiveParkingSessionTableViewCell", for: indexPath) as? ActiveParkingSessionTableViewCell else {
                 return UITableViewCell()
             }
+            let obj = self.activeBookings[indexPath.row]
+            cell.lblZoneNumber.text = obj.zone
+            cell.lblAddrrss.text = obj.zoneAddress
+            
+            cell.configure(for: indexPath.row)
+            cell.vwTimer.isHidden = !self.activeBookings[indexPath.row].isTimerVisible
+            cell.btnOnShowHideTimer.addTarget(self, action: #selector(btnOnShowHideTimer(_:)), for: .touchUpInside)
+            
            // cell.configure(for: activeBookings[indexPath.row])
             return cell
         case .history:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryParkTableViewCell", for: indexPath) as? HistoryParkTableViewCell else {
                 return UITableViewCell()
             }
-           // cell.configure(for: historyBookings[indexPath.row])
+            
+            let obj = self.historyBookings[indexPath.row]
+            cell.lblZoneNumber.text = obj.zone
+            cell.lblAddress.text = obj.zoneAddress
+            cell.lblBooKedOn.text = obj.entryDate
+            cell.lblTotalPaidAmount.text = "$\(obj.totalPaidAmount ?? "0.0") USD"
+            
             return cell
         case .penalty:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "PenaltyParkTableViewCell", for: indexPath) as? PenaltyParkTableViewCell else {
                 return UITableViewCell()
             }
-           // cell.configure(for: penaltyBookings[indexPath.row])
+           
+            let obj = self.penaltyBookings[indexPath.row]
+            
+            if obj.status == "Booked"{
+                cell.lblPendingAmountDesc.text = "Pending Penalty Amount of $\(obj.pendingPenaltyAmount ?? "0.0") USD for this booking in \(obj.remainingDays ?? 0) days"
+                cell.lblPendingAmountDesc.textColor = .red
+                cell.vwPayAmountButton.isHidden = false
+            }else{
+                cell.lblPendingAmountDesc.text = "Paid Penalty Amount of $\(obj.pendingPenaltyAmount ?? "0.0") USD for this booking"
+                cell.lblPendingAmountDesc.textColor = .orange
+                cell.vwPayAmountButton.isHidden = true
+            }
+            
+            
+            cell.lblZoneNumber.text = obj.zone
+            cell.lblZoneAddress.text = obj.zoneAddress
+            cell.lblBookedOn.text = obj.entryDate
+            cell.lblTotalPaidAmount.text = "$\(obj.totalPaidAmount ?? "0.0") USD"
+            
+            
             return cell
         }
     }
@@ -147,11 +180,17 @@ extension HomeUserViewController {
             "has_penalty": strHasPenailty
         ]
         
+        print(params)
+        
         objWebServiceManager.requestPost(strURL: WsUrl.url_get_booking, queryParams: [:], params: params, strCustomValidation: "", showIndicator: false) { response in
             objWebServiceManager.hideIndicator()
             
+            print(response)
+            
             if let status = response["status"] as? Int, status == MessageConstant.k_StatusCode {
+                
                 if let resultArray = response["result"] as? [[String: Any]] {
+                    
                     let bookings = resultArray.map { BookingModel(from: $0) }
                     
                     // Filter bookings for each tab
@@ -161,6 +200,7 @@ extension HomeUserViewController {
                     case .history:
                         self.historyBookings = bookings.filter { $0.status == "Complete" }
                     case .penalty:
+                        print(bookings.filter { $0.hasPenalty ?? false })
                         self.penaltyBookings = bookings.filter { $0.hasPenalty ?? false } // Check if hasPenalty is true
                     }
 

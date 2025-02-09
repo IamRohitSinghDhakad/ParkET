@@ -8,7 +8,11 @@
 import UIKit
 
 class HistoryParkTableViewCell: UITableViewCell {
-
+    @IBOutlet weak var lblZoneNumber: UILabel!
+    @IBOutlet weak var lblAddress: UILabel!
+    @IBOutlet weak var lblBooKedOn: UILabel!
+    @IBOutlet weak var lblTotalPaidAmount: UILabel!
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
