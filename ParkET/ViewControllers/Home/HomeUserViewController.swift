@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import iOSDropDown
 
 struct CellState {
     var isTimerVisible: Bool
@@ -15,6 +16,9 @@ class HomeUserViewController: UIViewController {
     
     @IBOutlet weak var vwNoRecord: UIView!
     @IBOutlet weak var tblVw: UITableView!
+    @IBOutlet var subVw: UIView!
+    @IBOutlet weak var lblheadingSubVwExtend: UILabel!
+    @IBOutlet weak var tfSelectHours: DropDown!
     
     var strZoneId = ""
     var strStatus = "Booked"
@@ -40,14 +44,20 @@ class HomeUserViewController: UIViewController {
            super.viewDidLoad()
            self.call_WsGetBooking()
            self.vwNoRecord.isHidden = true
-           
+           self.subVw.isHidden = false
            self.tblVw.delegate = self
            self.tblVw.dataSource = self
            
            self.tblVw.register(UINib(nibName: "ActiveParkingSessionTableViewCell", bundle: nil), forCellReuseIdentifier: "ActiveParkingSessionTableViewCell")
            self.tblVw.register(UINib(nibName: "HistoryParkTableViewCell", bundle: nil), forCellReuseIdentifier: "HistoryParkTableViewCell")
            self.tblVw.register(UINib(nibName: "PenaltyParkTableViewCell", bundle: nil), forCellReuseIdentifier: "PenaltyParkTableViewCell")
-       }
+    
+        self.tfSelectHours.delegate = self
+        self.tfSelectHours.optionArray = ["1","2","3","4","5","6","7","8","9","10","11","12"]
+        self.tfSelectHours.didSelect { selectedText, index, id in
+            self.tfSelectHours.text = selectedText
+        }
+    }
     
     @IBAction func btnOnTabSelection(_ sender: UIButton) {
         switch sender.tag {
@@ -69,6 +79,9 @@ class HomeUserViewController: UIViewController {
         self.call_WsGetBooking()
         
     }
+    @IBAction func btnContinueExtend(_ sender: Any) {
+        self.addSubview(isAdd: false)
+    }
     
     @objc func btnOnShowHideTimer(_ sender: UIButton) {
         // Find the cell's index path
@@ -89,6 +102,30 @@ class HomeUserViewController: UIViewController {
         }
         
         tblVw.reloadRows(at: [indexPath], with: .automatic) // Reload the specific row
+    }
+    
+    @objc func btnOnExtend(_ sender: UIButton) {
+        // Find the cell's index path
+        let point = sender.convert(CGPoint.zero, to: tblVw)
+        guard let indexPath = tblVw.indexPathForRow(at: point) else {
+            print("Failed to find indexPath")
+            return
+        }
+        self.addSubview(isAdd: true)
+       
+       
+    }
+    
+    @objc func btnOnStop(_ sender: UIButton) {
+        // Find the cell's index path
+        let point = sender.convert(CGPoint.zero, to: tblVw)
+        guard let indexPath = tblVw.indexPathForRow(at: point) else {
+            print("Failed to find indexPath")
+            return
+        }
+        
+        
+      
     }
 }
 
@@ -115,9 +152,16 @@ extension HomeUserViewController: UITableViewDelegate, UITableViewDataSource {
             cell.lblZoneNumber.text = obj.zone
             cell.lblAddrrss.text = obj.zoneAddress
             
-            cell.configure(for: indexPath.row)
+            cell.configure(with: "\(obj.id)", endTime: obj.endTime ?? "")
+            
+            //cell.configure(with: obj.endTime ?? "", at: indexPath)
+            
             cell.vwTimer.isHidden = !self.activeBookings[indexPath.row].isTimerVisible
             cell.btnOnShowHideTimer.addTarget(self, action: #selector(btnOnShowHideTimer(_:)), for: .touchUpInside)
+            cell.btnExtended.tag = indexPath.row
+            cell.btnExtended.addTarget(self, action: #selector(btnOnExtend(_:)), for: .touchUpInside)
+            cell.btnStop.tag = indexPath.row
+            cell.btnStop.addTarget(self, action: #selector(btnOnStop(_:)), for: .touchUpInside)
             
            // cell.configure(for: activeBookings[indexPath.row])
             return cell
@@ -160,6 +204,8 @@ extension HomeUserViewController: UITableViewDelegate, UITableViewDataSource {
             return cell
         }
     }
+    
+    
 }
 
 
@@ -217,6 +263,24 @@ extension HomeUserViewController {
         } failure: { error in
             objWebServiceManager.hideIndicator()
             objAlert.showAlert(message: "Request failed. Please try again.", title: "", controller: self)
+        }
+    }
+    
+    
+    func addSubview(isAdd: Bool) {
+        if isAdd {
+            self.subVw.frame = CGRect(x: 0, y: -(self.view.frame.height), width: self.view.frame.width, height: self.view.frame.height)
+            self.view.addSubview(subVw)
+            
+            UIView.animate(withDuration: 0.5) {
+                self.subVw.frame.origin.y = 0
+            }
+        } else {
+            UIView.animate(withDuration: 0.3) {
+                self.subVw.frame.origin.y = self.view.frame.height
+            } completion: { y in
+                self.subVw.removeFromSuperview()
+            }
         }
     }
 }
