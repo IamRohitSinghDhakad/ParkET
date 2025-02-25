@@ -32,9 +32,11 @@ class ProfileViewController: UIViewController {
     @IBAction func btnonUpdate(_ sender: Any) {
         
     }
+    
     @IBAction func btnOnOpencamera(_ sender: Any) {
-        MediaPicker.shared.pickMedia(from: self) { image in
-            self.imgVwUser.image = image
+        
+        MediaPicker.shared.pickMedia(from: self) { imag, dict in
+            self.imgVwUser.image = imag
         }
     }
     

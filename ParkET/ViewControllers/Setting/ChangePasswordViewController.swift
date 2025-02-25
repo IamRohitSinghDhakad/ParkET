@@ -20,8 +20,32 @@ class ChangePasswordViewController: UIViewController {
     
 
     @IBAction func btnOnUpdatePassword(_ sender: Any) {
-        
+        if validateFields(){
+            self.call_WsAChangePassword()
+        }
     }
+    
+    
+    func validateFields() -> Bool {
+        guard let password = tfNewPassword.text, !password.isEmpty else {
+            objAlert.showAlert(message: "Please enter a password.".localized(), controller: self)
+            return false
+        }
+        
+        guard let confirmPassword = tfConfirmPassword.text, !confirmPassword.isEmpty else {
+            objAlert.showAlert(message: "Please enter confirm password.".localized(), controller: self)
+            return false
+        }
+        
+        guard password == confirmPassword else {
+            objAlert.showAlert(message: "Password and confirm password do not match.".localized(), controller: self)
+            return false
+        }
+        
+        return true  // All validations passed
+    }
+
+    
     
     @IBAction func btnGoBack(_ sender: Any) {
         onBackPressed()
@@ -42,12 +66,12 @@ extension ChangePasswordViewController{
         
         let params: [String: Any] = [
             "user_id": objAppShareData.UserDetail.strUser_id,
-            "new_password":self.tfNewPassword.text!
+            "password":self.tfNewPassword.text!
         ]
         
         print(params)
         
-        objWebServiceManager.requestPost(strURL: WsUrl.url_ChangePassword, queryParams: [:], params: params, strCustomValidation: "", showIndicator: false) { response in
+        objWebServiceManager.requestPost(strURL: WsUrl.url_UpdateProfile, queryParams: [:], params: params, strCustomValidation: "", showIndicator: false) { response in
             objWebServiceManager.hideIndicator()
             
             print(response)

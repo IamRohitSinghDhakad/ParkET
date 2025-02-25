@@ -121,7 +121,7 @@ extension VehicleViewController{
                 }
             } else {
                 let message = response["message"] as? String ?? "Something went wrong!"
-                objAlert.showAlert(message: message, title: "", controller: self)
+               // objAlert.showAlert(message: message, title: "", controller: self)
             }
         } failure: { error in
             objWebServiceManager.hideIndicator()

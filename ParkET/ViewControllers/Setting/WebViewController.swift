@@ -15,6 +15,7 @@ class WebViewController: UIViewController {
     @IBOutlet weak var lblHeadingTitle: UILabel!
     
     var isComingfrom = ""
+    var strBookingID = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,11 +28,11 @@ class WebViewController: UIViewController {
         var loadUrl = ""
         switch isComingfrom {
         case "Privacy Policy":
-            loadUrl = "page/Privacy"
-        case "Terms & Conditions":
-            loadUrl = "page/Terms"
+            loadUrl = "page?page=Privacy"
+        case "About Us":
+            loadUrl = "page?page=About+Us"
         default:
-            break
+            loadUrl = "receipt_page?booking_id=\(strBookingID)"
         }
         
         
@@ -46,7 +47,20 @@ class WebViewController: UIViewController {
     }
     
     @IBAction func btnOnBack(_ sender: Any) {
+        if self.isComingfrom == "Payment"{
+            setRootController()
+        }else{
+            
+        }
         onBackPressed()
+    }
+    
+    func setRootController(){
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let vc = (self.mainStoryboard.instantiateViewController(withIdentifier: "TabBarUserViewController") as? TabBarUserViewController)!
+        let navController = UINavigationController(rootViewController: vc)
+        navController.isNavigationBarHidden = true
+        appDelegate.window?.rootViewController = navController
     }
     
 }

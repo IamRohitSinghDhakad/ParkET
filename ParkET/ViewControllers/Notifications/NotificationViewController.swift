@@ -72,12 +72,42 @@ extension NotificationViewController{
                   
                 }
             } else {
-                let message = response["message"] as? String ?? "Something went wrong!"
-                objAlert.showAlert(message: message, title: "", controller: self)
+//                let message = response["message"] as? String ?? "Something went wrong!"
+//                objAlert.showAlert(message: message, title: "", controller: self)
+                self.showToast(message: "No Notification Found!!")
             }
         } failure: { error in
             objWebServiceManager.hideIndicator()
             objAlert.showAlert(message: "Request failed. Please try again.", title: "", controller: self)
+        }
+    }
+    
+    func showToast(message: String) {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first(where: { $0.isKeyWindow }) else {
+            return
+        }
+
+        let toastLabel = UILabel(frame: CGRect(x: 20, y: window.frame.height - 120, width: window.frame.width - 40, height: 40))
+        toastLabel.backgroundColor = .white
+        toastLabel.textColor = .red
+        toastLabel.textAlignment = .center
+        toastLabel.font = UIFont.systemFont(ofSize: 14, weight: .bold)
+        toastLabel.text = message
+        toastLabel.alpha = 0.0
+        toastLabel.layer.cornerRadius = 8
+        toastLabel.clipsToBounds = true
+
+        window.addSubview(toastLabel)  // Add toast to key window so it's above the tab bar
+
+        UIView.animate(withDuration: 0.5, animations: {
+            toastLabel.alpha = 1.0
+        }) { _ in
+            UIView.animate(withDuration: 0.5, delay: 2.0, options: .curveEaseOut, animations: {
+                toastLabel.alpha = 0.0
+            }) { _ in
+                toastLabel.removeFromSuperview()
+            }
         }
     }
     

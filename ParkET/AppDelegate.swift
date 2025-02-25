@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         
         
-        GMSServices.provideAPIKey("AIzaSyA_r0G10uYdHYIi5EbCk91Ym7lkCd-DSKU")
+        GMSServices.provideAPIKey("AIzaSyCCuoDkf79l23-JRuS51Ni3lJdbiw8SHE0")
       //  FirebaseApp.configure()
         self.registerForRemoteNotification()
         UNUserNotificationCenter.current().delegate = self

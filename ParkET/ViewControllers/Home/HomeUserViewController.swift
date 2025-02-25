@@ -19,6 +19,10 @@ class HomeUserViewController: UIViewController {
     @IBOutlet var subVw: UIView!
     @IBOutlet weak var lblheadingSubVwExtend: UILabel!
     @IBOutlet weak var tfSelectHours: DropDown!
+    @IBOutlet var subVwStop: UIView!
+    @IBOutlet weak var btnActive: UIButton!
+    @IBOutlet weak var btnHistory: UIButton!
+    @IBOutlet weak var btnPenalty: UIButton!
     
     var strZoneId = ""
     var strStatus = "Booked"
@@ -26,6 +30,7 @@ class HomeUserViewController: UIViewController {
     var activeBookings: [BookingModel] = []
     var historyBookings: [BookingModel] = []
     var penaltyBookings: [BookingModel] = []
+    var strSelectedIndex = -1
     
     // Enum to manage tab selection
     enum TabSelection {
@@ -41,25 +46,41 @@ class HomeUserViewController: UIViewController {
     var penaltyTabStates: [CellState] = []
     
     override func viewDidLoad() {
-           super.viewDidLoad()
-           self.call_WsGetBooking()
-           self.vwNoRecord.isHidden = true
-           self.subVw.isHidden = false
-           self.tblVw.delegate = self
-           self.tblVw.dataSource = self
-           
-           self.tblVw.register(UINib(nibName: "ActiveParkingSessionTableViewCell", bundle: nil), forCellReuseIdentifier: "ActiveParkingSessionTableViewCell")
-           self.tblVw.register(UINib(nibName: "HistoryParkTableViewCell", bundle: nil), forCellReuseIdentifier: "HistoryParkTableViewCell")
-           self.tblVw.register(UINib(nibName: "PenaltyParkTableViewCell", bundle: nil), forCellReuseIdentifier: "PenaltyParkTableViewCell")
-    
+        super.viewDidLoad()
+        self.call_WsGetBooking()
+        self.vwNoRecord.isHidden = true
+        self.subVw.isHidden = false
+        self.tblVw.delegate = self
+        self.tblVw.dataSource = self
+        
+        self.tblVw.register(UINib(nibName: "ActiveParkingSessionTableViewCell", bundle: nil), forCellReuseIdentifier: "ActiveParkingSessionTableViewCell")
+        self.tblVw.register(UINib(nibName: "HistoryParkTableViewCell", bundle: nil), forCellReuseIdentifier: "HistoryParkTableViewCell")
+        self.tblVw.register(UINib(nibName: "PenaltyParkTableViewCell", bundle: nil), forCellReuseIdentifier: "PenaltyParkTableViewCell")
+        
         self.tfSelectHours.delegate = self
         self.tfSelectHours.optionArray = ["1","2","3","4","5","6","7","8","9","10","11","12"]
         self.tfSelectHours.didSelect { selectedText, index, id in
             self.tfSelectHours.text = selectedText
         }
     }
+    @IBAction func btnYesStop(_ sender: Any) {
+        
+    }
+    
+    @IBAction func btnOnParkNow(_ sender: Any) {
+        if let tabBarController = self.tabBarController {
+            tabBarController.selectedIndex = 1
+        }
+    }
     
     @IBAction func btnOnTabSelection(_ sender: UIButton) {
+        
+        resetTabButtonStyles()
+        
+        // Highlight the selected button
+        sender.setTitleColor(.white, for: .normal)
+        sender.backgroundColor = UIColor(named: "AppColor")
+        
         switch sender.tag {
         case 1:
             currentTab = .active
@@ -79,8 +100,28 @@ class HomeUserViewController: UIViewController {
         self.call_WsGetBooking()
         
     }
+    
+    func resetTabButtonStyles() {
+        let tabButtons = [btnActive, btnHistory, btnPenalty]  // Replace with actual button outlets
+        for button in tabButtons {
+            button?.setTitleColor(.black, for: .normal)
+            button?.backgroundColor = UIColor(named: "AppColor")
+        }
+    }
+    
+    
     @IBAction func btnContinueExtend(_ sender: Any) {
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PaymentMethodViewController")as! PaymentMethodViewController
+        vc.strZone = self.activeBookings[strSelectedIndex].zone ?? ""
+        vc.carNumber = self.activeBookings[strSelectedIndex].vehicleNo ?? ""
+        vc.strZoneID = "\(self.activeBookings[strSelectedIndex].zoneId)"
+        vc.hours = self.tfSelectHours.text!
+        vc.strIsCommingFrom = "Extend"
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    @IBAction func btnCloseSubVwExtend(_ sender: Any) {
         self.addSubview(isAdd: false)
+        self.addSubviewStop(isAdd: false)
     }
     
     @objc func btnOnShowHideTimer(_ sender: UIButton) {
@@ -111,21 +152,22 @@ class HomeUserViewController: UIViewController {
             print("Failed to find indexPath")
             return
         }
+        self.strSelectedIndex = indexPath.row
         self.addSubview(isAdd: true)
-       
-       
+        
+        
     }
     
     @objc func btnOnStop(_ sender: UIButton) {
         // Find the cell's index path
-        let point = sender.convert(CGPoint.zero, to: tblVw)
-        guard let indexPath = tblVw.indexPathForRow(at: point) else {
-            print("Failed to find indexPath")
-            return
-        }
+        //        let point = sender.convert(CGPoint.zero, to: tblVw)
+        //        guard let indexPath = tblVw.indexPathForRow(at: point) else {
+        //            print("Failed to find indexPath")
+        //            return
+        //        }
+        //
+        self.addSubviewStop(isAdd: true)
         
-        
-      
     }
 }
 
@@ -152,7 +194,10 @@ extension HomeUserViewController: UITableViewDelegate, UITableViewDataSource {
             cell.lblZoneNumber.text = obj.zone
             cell.lblAddrrss.text = obj.zoneAddress
             
-            cell.configure(with: "\(obj.id)", endTime: obj.endTime ?? "")
+            // Configure countdown timer with end time and index path
+            if let endTime = obj.endTime {
+                cell.configure(with: obj.endTime ?? "")
+            }
             
             //cell.configure(with: obj.endTime ?? "", at: indexPath)
             
@@ -163,7 +208,7 @@ extension HomeUserViewController: UITableViewDelegate, UITableViewDataSource {
             cell.btnStop.tag = indexPath.row
             cell.btnStop.addTarget(self, action: #selector(btnOnStop(_:)), for: .touchUpInside)
             
-           // cell.configure(for: activeBookings[indexPath.row])
+            // cell.configure(for: activeBookings[indexPath.row])
             return cell
         case .history:
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryParkTableViewCell", for: indexPath) as? HistoryParkTableViewCell else {
@@ -181,7 +226,7 @@ extension HomeUserViewController: UITableViewDelegate, UITableViewDataSource {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "PenaltyParkTableViewCell", for: indexPath) as? PenaltyParkTableViewCell else {
                 return UITableViewCell()
             }
-           
+            
             let obj = self.penaltyBookings[indexPath.row]
             
             if obj.status == "Booked"{
@@ -239,17 +284,21 @@ extension HomeUserViewController {
                     
                     let bookings = resultArray.map { BookingModel(from: $0) }
                     
+                    self.activeBookings.removeAll()
+                    self.historyBookings.removeAll()
+                    self.penaltyBookings.removeAll()
+                    
                     // Filter bookings for each tab
                     switch self.currentTab {
                     case .active:
                         self.activeBookings = bookings.filter { $0.status == "Booked" }
                     case .history:
                         self.historyBookings = bookings.filter { $0.status == "Complete" }
+                        
                     case .penalty:
                         print(bookings.filter { $0.hasPenalty ?? false })
                         self.penaltyBookings = bookings.filter { $0.hasPenalty ?? false } // Check if hasPenalty is true
                     }
-
                     
                     self.tblVw.reloadData()
                     self.vwNoRecord.isHidden = !bookings.isEmpty
@@ -257,8 +306,12 @@ extension HomeUserViewController {
                     self.vwNoRecord.isHidden = false
                 }
             } else {
-                let message = response["message"] as? String ?? "Something went wrong!"
-                objAlert.showAlert(message: message, title: "", controller: self)
+                self.activeBookings.removeAll()
+                self.historyBookings.removeAll()
+                self.penaltyBookings.removeAll()
+                self.tblVw.reloadData()
+               // self.vwNoRecord.isHidden = false
+                //  objAlert.showAlert(message: message, title: "", controller: self)
             }
         } failure: { error in
             objWebServiceManager.hideIndicator()
@@ -280,6 +333,23 @@ extension HomeUserViewController {
                 self.subVw.frame.origin.y = self.view.frame.height
             } completion: { y in
                 self.subVw.removeFromSuperview()
+            }
+        }
+    }
+    
+    func addSubviewStop(isAdd: Bool) {
+        if isAdd {
+            self.subVwStop.frame = CGRect(x: 0, y: -(self.view.frame.height), width: self.view.frame.width, height: self.view.frame.height)
+            self.view.addSubview(subVwStop)
+            
+            UIView.animate(withDuration: 0.5) {
+                self.subVwStop.frame.origin.y = 0
+            }
+        } else {
+            UIView.animate(withDuration: 0.3) {
+                self.subVwStop.frame.origin.y = self.view.frame.height
+            } completion: { y in
+                self.subVwStop.removeFromSuperview()
             }
         }
     }

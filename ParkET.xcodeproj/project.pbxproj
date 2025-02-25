@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D685CE2E20389A273DC85843 /* Pods_ParkET.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14604DFEDE189ADDCFAB373B /* Pods_ParkET.framework */; };
+		F9B4FA012D5B4D97003FA12B /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = F9B4FA002D5B4D97003FA12B /* GoogleMaps */; };
 		F9EC0B722D09F72400070C62 /* GoogleMaps in Frameworks */ = {isa = PBXBuildFile; productRef = F9EC0B712D09F72400070C62 /* GoogleMaps */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +47,7 @@
 			files = (
 				F9EC0B722D09F72400070C62 /* GoogleMaps in Frameworks */,
 				D685CE2E20389A273DC85843 /* Pods_ParkET.framework in Frameworks */,
+				F9B4FA012D5B4D97003FA12B /* GoogleMaps in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -438,6 +440,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F9B4FA002D5B4D97003FA12B /* GoogleMaps */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = GoogleMaps;
+		};
 		F9EC0B712D09F72400070C62 /* GoogleMaps */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F9EC0B702D09F72400070C62 /* XCRemoteSwiftPackageReference "ios-maps-sdk" */;

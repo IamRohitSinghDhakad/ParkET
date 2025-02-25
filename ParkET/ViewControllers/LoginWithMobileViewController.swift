@@ -15,6 +15,7 @@ class LoginWithMobileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.tfMobileNumber.text = "8871179252"
         // Do any additional setup after loading the view.
     }
     
@@ -58,7 +59,7 @@ extension LoginWithMobileViewController{
         
         dicrParam = ["mobile":self.tfMobileNumber.text!]as [String:Any]
             
-            url = WsUrl.url_Attender_login
+        url = WsUrl.url_Attender
         
         
         print(dicrParam)
@@ -73,6 +74,8 @@ extension LoginWithMobileViewController{
             print(response)
             if status == MessageConstant.k_StatusCode{
                 if let user_details  = response["result"] as? [String:Any] {
+                    objAppShareData.SaveUpdateUserInfoFromAppshareData(userDetail: user_details)
+                    objAppShareData.fetchUserInfoFromAppshareData()
                     self.pushVc(viewConterlerId: "OTPViewController")
                 }
                 else {

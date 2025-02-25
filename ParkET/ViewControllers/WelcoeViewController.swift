@@ -18,7 +18,7 @@ class WelcoeViewController: UIViewController {
     
     @IBAction func btnOnDriver(_ sender: Any) {
         let vc = self.mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController")as! LoginViewController
-        vc.strType = "User"
+        vc.strType = "Driver"
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -32,10 +32,18 @@ class WelcoeViewController: UIViewController {
     func goToNextController() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         if AppSharedData.sharedObject().isLoggedIn {
-            let vc = (self.mainStoryboard.instantiateViewController(withIdentifier: "TabBarUserViewController") as? TabBarUserViewController)!
-            let navController = UINavigationController(rootViewController: vc)
-            navController.isNavigationBarHidden = true
-            appDelegate.window?.rootViewController = navController
+            if objAppShareData.UserDetail.type == "Attender"{
+                let vc = (self.mainStoryboard.instantiateViewController(withIdentifier: "TabBarAttenderViewController") as? TabBarAttenderViewController)!
+                let navController = UINavigationController(rootViewController: vc)
+                navController.isNavigationBarHidden = true
+                appDelegate.window?.rootViewController = navController
+            }else{
+                let vc = (self.mainStoryboard.instantiateViewController(withIdentifier: "TabBarUserViewController") as? TabBarUserViewController)!
+                let navController = UINavigationController(rootViewController: vc)
+                navController.isNavigationBarHidden = true
+                appDelegate.window?.rootViewController = navController
+            }
+           
         }
         else {
 //            let vc = (self.mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController)!

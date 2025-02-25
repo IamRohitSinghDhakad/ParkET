@@ -34,7 +34,8 @@ class UserModel: NSObject {
     var mobile: String?
     var password : String?
     var gender : String?
-    
+    var register_id : String?
+    var type: String?
     
     
     //    init(dict : [String : Any]) {
@@ -75,6 +76,12 @@ class UserModel: NSObject {
             self.has_active_plan = has_active_plan
         }else if let has_active_plan = dictionary["has_active_plan"]as? Int{
             self.has_active_plan = "\(has_active_plan)"
+        }
+        
+        if let register = dictionary["register_id"]as? String{
+            self.register_id = register
+        }else if let register = dictionary["register_id"]as? Int{
+            self.register_id = "\(register)"
         }
         
         if let strAge = dictionary["age"]as? String{
@@ -133,7 +140,9 @@ class UserModel: NSObject {
             self.blue_tick_status = twitter
         }
         
-        
+        if let value = dictionary["type"] as? String {
+            type = value
+        }
         
         
     }

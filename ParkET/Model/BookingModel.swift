@@ -14,7 +14,7 @@ class BookingModel: NSObject {
     var status: String?
     var hasPenalty: Bool?
     var hourly: Int = 0
-    var id: Int = 0
+    var id: String = ""
     var mobile: String?
     var payments: [PaymentModel] = []
     var penalties: [PenaltyModel] = []
@@ -30,8 +30,9 @@ class BookingModel: NSObject {
     var vehicleNo: String?
     var zone: String?
     var zoneAddress: String?
-    var zoneId: Int = 0
+    var zoneId: String = ""
     var isTimerVisible = false
+    var isTimerVisibleForAttender = false
     
     init(from dictionary: [String: Any]) {
         super.init()
@@ -40,7 +41,7 @@ class BookingModel: NSObject {
         entryDate = dictionary["entrydt"] as? String
        // hasPenalty = (dictionary["has_penalty"] as? Int ?? 0) == 1
         hourly = dictionary["hourly"] as? Int ?? 0
-        id = dictionary["id"] as? Int ?? 0
+      
         mobile = "\(dictionary["mobile"] ?? "")"
         if let paymentsArray = dictionary["payments"] as? [[String: Any]] {
             payments = paymentsArray.map { PaymentModel(from: $0) }
@@ -71,6 +72,12 @@ class BookingModel: NSObject {
             self.pendingPenaltyAmount = String(format: "%.2f", paid_penalty_Amount)
         }
         
+        if let id = dictionary["id"]as? String{
+            self.id = id
+        }else if let id = dictionary["id"]as? Int{
+            self.id = "\(id)"
+        }
+        
         totalPenaltyPaidAmount = Double(dictionary["total_penalty_paid_amount"] as? String ?? "0") ?? 0.0
         
         userId = dictionary["user_id"] as? Int ?? 0
@@ -79,7 +86,7 @@ class BookingModel: NSObject {
         vehicleNo = dictionary["vehicle_no"] as? String
         zone = dictionary["zone"] as? String
         zoneAddress = dictionary["zone_address"] as? String
-        zoneId = dictionary["zone_id"] as? Int ?? 0
+        zoneId = dictionary["zone_id"] as? String ?? "0"
     }
 }
 
