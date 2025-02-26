@@ -50,9 +50,9 @@ class WebViewController: UIViewController {
         if self.isComingfrom == "Payment"{
             setRootController()
         }else{
-            
+            onBackPressed()
         }
-        onBackPressed()
+       
     }
     
     func setRootController(){

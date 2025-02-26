@@ -23,10 +23,10 @@ class BookingModel: NSObject {
     var startTime: String?
   // var status: String?
     var totalPaidAmount: String?
-    var totalPenaltyPaidAmount: Double = 0.0
+    var totalPenaltyPaidAmount: String?
     var userId: Int = 0
     var username: String?
-    var vehicleId: Int = 0
+    var vehicleId: String?
     var vehicleNo: String?
     var zone: String?
     var zoneAddress: String?
@@ -72,21 +72,41 @@ class BookingModel: NSObject {
             self.pendingPenaltyAmount = String(format: "%.2f", paid_penalty_Amount)
         }
         
+        if let total_penalty_paid_amount = dictionary["total_penalty_paid_amount"]as? String{
+            self.totalPenaltyPaidAmount = total_penalty_paid_amount
+        }else if let total_penalty_paid_amount = dictionary["total_penalty_paid_amount"]as? Int{
+            self.totalPenaltyPaidAmount = "\(total_penalty_paid_amount)"
+        }else if let total_penalty_paid_amount = dictionary["total_penalty_paid_amount"] as? Double {
+            self.totalPenaltyPaidAmount = String(format: "%.2f", total_penalty_paid_amount)
+        }
+        
         if let id = dictionary["id"]as? String{
             self.id = id
         }else if let id = dictionary["id"]as? Int{
             self.id = "\(id)"
         }
         
-        totalPenaltyPaidAmount = Double(dictionary["total_penalty_paid_amount"] as? String ?? "0") ?? 0.0
+        if let vehicleId = dictionary["vehicle_id"]as? String{
+            self.vehicleId = vehicleId
+        }else if let vehicleId = dictionary["vehicle_id"]as? Int{
+            self.vehicleId = "\(vehicleId)"
+        }
+        
+        if let zone_id = dictionary["zone_id"]as? String{
+            self.zoneId = zone_id
+        }else if let zone_id = dictionary["zone_id"]as? Int{
+            self.zoneId = "\(zone_id)"
+        }
+        
+       // totalPenaltyPaidAmount = Double(dictionary["total_penalty_paid_amount"] as? String ?? "0") ?? 0.0
         
         userId = dictionary["user_id"] as? Int ?? 0
         username = dictionary["username"] as? String
-        vehicleId = dictionary["vehicle_id"] as? Int ?? 0
+    
         vehicleNo = dictionary["vehicle_no"] as? String
         zone = dictionary["zone"] as? String
         zoneAddress = dictionary["zone_address"] as? String
-        zoneId = dictionary["zone_id"] as? String ?? "0"
+       
     }
 }
 

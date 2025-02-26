@@ -109,6 +109,12 @@
                                         <color key="textColor" name="AppColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nyq-Ix-vBm">
+                                        <rect key="frame" x="10" y="82" width="173" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Show Media Evidence"/>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -121,10 +127,12 @@
                                     <constraint firstItem="wkZ-d8-zj9" firstAttribute="top" secondItem="xIP-Jv-RKB" secondAttribute="bottom" constant="2" id="LjB-hU-eBB"/>
                                     <constraint firstItem="xIP-Jv-RKB" firstAttribute="leading" secondItem="wYP-my-AnH" secondAttribute="leading" constant="10" id="Oyq-hT-UyM"/>
                                     <constraint firstItem="ekm-lv-O5s" firstAttribute="centerY" secondItem="x6x-3L-Bat" secondAttribute="centerY" id="PzU-sX-zeX"/>
+                                    <constraint firstItem="nyq-Ix-vBm" firstAttribute="top" secondItem="x6x-3L-Bat" secondAttribute="bottom" id="iGm-3w-D8e"/>
                                     <constraint firstItem="xIP-Jv-RKB" firstAttribute="top" secondItem="rZM-DL-DqH" secondAttribute="bottom" constant="3" id="kt9-L0-Arh"/>
-                                    <constraint firstAttribute="height" constant="100" id="n2L-TK-iGo"/>
+                                    <constraint firstAttribute="height" constant="125" id="n2L-TK-iGo"/>
                                     <constraint firstItem="XV3-8e-ysW" firstAttribute="leading" secondItem="rZM-DL-DqH" secondAttribute="trailing" constant="8" symbolic="YES" id="naX-R1-iQE"/>
                                     <constraint firstItem="5Fn-pV-bQn" firstAttribute="leading" secondItem="wkZ-d8-zj9" secondAttribute="trailing" constant="5" id="pGA-dI-pg4"/>
+                                    <constraint firstItem="nyq-Ix-vBm" firstAttribute="leading" secondItem="wYP-my-AnH" secondAttribute="leading" constant="10" id="prf-dn-rDo"/>
                                     <constraint firstAttribute="trailing" secondItem="5Fn-pV-bQn" secondAttribute="trailing" constant="10" id="r3o-Gz-gy9"/>
                                     <constraint firstItem="x6x-3L-Bat" firstAttribute="top" secondItem="wkZ-d8-zj9" secondAttribute="bottom" constant="2" id="rg1-6J-Doa"/>
                                     <constraint firstItem="wkZ-d8-zj9" firstAttribute="leading" secondItem="wYP-my-AnH" secondAttribute="leading" constant="10" id="wF1-hl-ant"/>
@@ -165,6 +173,7 @@
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
+                <outlet property="btnOnShowEvidance" destination="nyq-Ix-vBm" id="uYB-gL-uCv"/>
                 <outlet property="btnPayNow" destination="1uz-ok-1Mk" id="nUf-Ih-uJV"/>
                 <outlet property="lblBookedOn" destination="5Fn-pV-bQn" id="0hK-XH-XYx"/>
                 <outlet property="lblPendingAmountDesc" destination="MD3-WW-VW2" id="xmT-p8-FuK"/>
@@ -178,7 +187,7 @@
     </objects>
     <resources>
         <namedColor name="AppColor">
-            <color red="0.99800002574920654" green="0.61500000953674316" blue="0.28200000524520874" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+            <color red="0.99599999189376831" green="0.61599999666213989" blue="0.28200000524520874" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
         </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

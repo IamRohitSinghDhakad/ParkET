@@ -7,6 +7,7 @@
 
 import UIKit
 import iOSDropDown
+import SDWebImage
 
 struct CellState {
     var isTimerVisible: Bool
@@ -23,18 +24,22 @@ class HomeUserViewController: UIViewController {
     @IBOutlet weak var btnActive: UIButton!
     @IBOutlet weak var btnHistory: UIButton!
     @IBOutlet weak var btnPenalty: UIButton!
+    @IBOutlet var subVwEvidance: UIView!
+    @IBOutlet weak var tblVwMedia: UITableView!
     
     var strZoneId = ""
     var strStatus = "Booked"
-    var strHasPenailty = ""
+    var strHasPenailty = "0"
     var activeBookings: [BookingModel] = []
     var historyBookings: [BookingModel] = []
     var penaltyBookings: [BookingModel] = []
+    var penaltyBookingsEvidance: [PenaltyModel] = []
     var strSelectedIndex = -1
+    var strSelectedIndexForEvidanceList = -1
     
     // Enum to manage tab selection
     enum TabSelection {
-        case active, history, penalty
+        case active, history, penalty, penaltyEvidance
     }
     
     // Property to store the current tab selection
@@ -52,6 +57,8 @@ class HomeUserViewController: UIViewController {
         self.subVw.isHidden = false
         self.tblVw.delegate = self
         self.tblVw.dataSource = self
+        self.tblVwMedia.delegate = self
+        self.tblVwMedia.dataSource = self
         
         self.tblVw.register(UINib(nibName: "ActiveParkingSessionTableViewCell", bundle: nil), forCellReuseIdentifier: "ActiveParkingSessionTableViewCell")
         self.tblVw.register(UINib(nibName: "HistoryParkTableViewCell", bundle: nil), forCellReuseIdentifier: "HistoryParkTableViewCell")
@@ -64,7 +71,7 @@ class HomeUserViewController: UIViewController {
         }
     }
     @IBAction func btnYesStop(_ sender: Any) {
-        
+        self.call_WsStopBooking(strBookingID: self.activeBookings[strSelectedIndex].id)
     }
     
     @IBAction func btnOnParkNow(_ sender: Any) {
@@ -72,6 +79,12 @@ class HomeUserViewController: UIViewController {
             tabBarController.selectedIndex = 1
         }
     }
+    
+    @IBAction func btnCloseSubVwEvidance(_ sender: Any) {
+        
+        self.addSubviewEvidance(isAdd: false)
+    }
+    
     
     @IBAction func btnOnTabSelection(_ sender: UIButton) {
         
@@ -85,7 +98,7 @@ class HomeUserViewController: UIViewController {
         case 1:
             currentTab = .active
             self.strStatus = "Booked"
-            self.strHasPenailty = ""
+            self.strHasPenailty = "0"
         case 2:
             currentTab = .history
             self.strStatus = "Complete"
@@ -95,7 +108,7 @@ class HomeUserViewController: UIViewController {
             self.strStatus = ""
             self.strHasPenailty = "1"
         default:
-            break
+            currentTab = .penaltyEvidance
         }
         self.call_WsGetBooking()
         
@@ -116,6 +129,7 @@ class HomeUserViewController: UIViewController {
         vc.carNumber = self.activeBookings[strSelectedIndex].vehicleNo ?? ""
         vc.strZoneID = "\(self.activeBookings[strSelectedIndex].zoneId)"
         vc.hours = self.tfSelectHours.text!
+        vc.strBookingID = self.activeBookings[strSelectedIndex].id
         vc.strIsCommingFrom = "Extend"
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -140,6 +154,8 @@ class HomeUserViewController: UIViewController {
             historyTabStates[indexPath.row].isTimerVisible.toggle()
         case .penalty:
             penaltyTabStates[indexPath.row].isTimerVisible.toggle()
+        case .penaltyEvidance:
+            print("penaltyEvidance")
         }
         
         tblVw.reloadRows(at: [indexPath], with: .automatic) // Reload the specific row
@@ -159,13 +175,12 @@ class HomeUserViewController: UIViewController {
     }
     
     @objc func btnOnStop(_ sender: UIButton) {
-        // Find the cell's index path
-        //        let point = sender.convert(CGPoint.zero, to: tblVw)
-        //        guard let indexPath = tblVw.indexPathForRow(at: point) else {
-        //            print("Failed to find indexPath")
-        //            return
-        //        }
-        //
+        let point = sender.convert(CGPoint.zero, to: tblVw)
+        guard let indexPath = tblVw.indexPathForRow(at: point) else {
+            print("Failed to find indexPath")
+            return
+        }
+        self.strSelectedIndex = indexPath.row
         self.addSubviewStop(isAdd: true)
         
     }
@@ -181,13 +196,15 @@ extension HomeUserViewController: UITableViewDelegate, UITableViewDataSource {
             return historyBookings.count
         case .penalty:
             return penaltyBookings.count
+        case .penaltyEvidance:
+            return self.penaltyBookings[strSelectedIndexForEvidanceList].penalties.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch currentTab {
         case .active:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "ActiveParkingSessionTableViewCell", for: indexPath) as? ActiveParkingSessionTableViewCell else {
+            guard let cell = self.tblVw.dequeueReusableCell(withIdentifier: "ActiveParkingSessionTableViewCell", for: indexPath) as? ActiveParkingSessionTableViewCell else {
                 return UITableViewCell()
             }
             let obj = self.activeBookings[indexPath.row]
@@ -211,7 +228,7 @@ extension HomeUserViewController: UITableViewDelegate, UITableViewDataSource {
             // cell.configure(for: activeBookings[indexPath.row])
             return cell
         case .history:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "HistoryParkTableViewCell", for: indexPath) as? HistoryParkTableViewCell else {
+            guard let cell = self.tblVw.dequeueReusableCell(withIdentifier: "HistoryParkTableViewCell", for: indexPath) as? HistoryParkTableViewCell else {
                 return UITableViewCell()
             }
             
@@ -223,18 +240,18 @@ extension HomeUserViewController: UITableViewDelegate, UITableViewDataSource {
             
             return cell
         case .penalty:
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "PenaltyParkTableViewCell", for: indexPath) as? PenaltyParkTableViewCell else {
+            guard let cell = self.tblVw.dequeueReusableCell(withIdentifier: "PenaltyParkTableViewCell", for: indexPath) as? PenaltyParkTableViewCell else {
                 return UITableViewCell()
             }
             
             let obj = self.penaltyBookings[indexPath.row]
             
-            if obj.status == "Booked"{
+            if obj.totalPenaltyPaidAmount == "0"{
                 cell.lblPendingAmountDesc.text = "Pending Penalty Amount of $\(obj.pendingPenaltyAmount ?? "0.0") USD for this booking in \(obj.remainingDays ?? 0) days"
                 cell.lblPendingAmountDesc.textColor = .red
                 cell.vwPayAmountButton.isHidden = false
             }else{
-                cell.lblPendingAmountDesc.text = "Paid Penalty Amount of $\(obj.pendingPenaltyAmount ?? "0.0") USD for this booking"
+                cell.lblPendingAmountDesc.text = "Paid Penalty Amount of $\(obj.totalPenaltyPaidAmount ?? "0.0") USD for this booking"
                 cell.lblPendingAmountDesc.textColor = .orange
                 cell.vwPayAmountButton.isHidden = true
             }
@@ -244,10 +261,91 @@ extension HomeUserViewController: UITableViewDelegate, UITableViewDataSource {
             cell.lblZoneAddress.text = obj.zoneAddress
             cell.lblBookedOn.text = obj.entryDate
             cell.lblTotalPaidAmount.text = "$\(obj.totalPaidAmount ?? "0.0") USD"
+            cell.btnPayNow.setTitle("$\(obj.pendingPenaltyAmount ?? "0.0")", for: .normal)
+            
+            cell.btnPayNow.tag = indexPath.row
+            cell.btnPayNow.addTarget(self, action: #selector(btnOnPayNow(_:)), for: .touchUpInside)
+            
+            cell.btnOnShowEvidance.tag = indexPath.row
+            cell.btnOnShowEvidance.addTarget(self, action: #selector(btnOnShowEvidance(_:)), for: .touchUpInside)
+            
+            
+            return cell
+        case .penaltyEvidance:
+            guard let cell = self.tblVwMedia.dequeueReusableCell(withIdentifier: "MediaListTableViewCell", for: indexPath) as? MediaListTableViewCell else {
+                return UITableViewCell()
+            }
+            
+            let obj = self.penaltyBookings[strSelectedIndexForEvidanceList].penalties[indexPath.row]
+            
+            let imageUrl  = BASE_URL_Image + (obj.image ?? "")
+            if imageUrl != "" {
+                let url = URL(string: imageUrl)
+                cell.imgVw.sd_setImage(with: url, placeholderImage: #imageLiteral(resourceName: "logo"))
+            }else{
+                cell.imgVw.image = #imageLiteral(resourceName: "logo")
+            }
+            
+            if obj.fineType == "Parking"{
+                cell.btnVw.isHidden = true
+            }else{
+                cell.btnVw.isHidden = false
+            }
+            
+            cell.lblFinType.text = "Fine type is \(obj.fineType ?? "")"
+            cell.lblDueDate.text = "Due Date is \(obj.dueDate ?? "")"
+            cell.lblFineAmount.text = "Fine amount is $\(obj.fineAmount)"
+            
+            cell.btnVw.tag = indexPath.row
+            cell.btnVw.addTarget(self, action: #selector(btnOnShowEvidanceOnFullScreen(_:)), for: .touchUpInside)
             
             
             return cell
         }
+    }
+    
+    @objc func btnOnShowEvidanceOnFullScreen(_ sender: UIButton) {
+        
+        let point = sender.convert(CGPoint.zero, to: tblVwMedia)
+        guard let indexPath = tblVwMedia.indexPathForRow(at: point) else {
+            print("Failed to find indexPath")
+            return
+        }
+        let obj = self.penaltyBookings[strSelectedIndexForEvidanceList].penalties[indexPath.row]
+        let vc = self.mainStoryboard.instantiateViewController(withIdentifier: "ViewEvidanceViewController")as! ViewEvidanceViewController
+        vc.objImageUrl = BASE_URL_Image + (obj.image ?? "")
+        self.navigationController?.pushViewController(vc, animated: true)
+        
+    }
+    
+   
+    @objc func btnOnShowEvidance(_ sender: UIButton) {
+        currentTab = .penaltyEvidance
+        let point = sender.convert(CGPoint.zero, to: tblVw)
+        guard let indexPath = tblVw.indexPathForRow(at: point) else {
+            print("Failed to find indexPath")
+            return
+        }
+        self.strSelectedIndexForEvidanceList = indexPath.row
+        self.tblVwMedia.reloadData()
+        self.addSubviewEvidance(isAdd: true)
+    }
+    
+    @objc func btnOnPayNow(_ sender: UIButton) {
+        let point = sender.convert(CGPoint.zero, to: tblVw)
+        guard let indexPath = tblVw.indexPathForRow(at: point) else {
+            print("Failed to find indexPath")
+            return
+        }
+    
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PaymentMethodViewController")as! PaymentMethodViewController
+        vc.strPenaltyAmount =  self.penaltyBookings[indexPath.row].pendingPenaltyAmount ?? ""
+        vc.strIsCommingFrom = "Penalty"
+        vc.strZone = self.penaltyBookings[indexPath.row].zone ?? ""
+        vc.carNumber = self.penaltyBookings[indexPath.row].vehicleNo ?? ""
+        vc.strZoneID = "\(self.penaltyBookings[indexPath.row].zoneId)"
+        vc.strBookingID = self.penaltyBookings[indexPath.row].id
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     
@@ -298,6 +396,9 @@ extension HomeUserViewController {
                     case .penalty:
                         print(bookings.filter { $0.hasPenalty ?? false })
                         self.penaltyBookings = bookings.filter { $0.hasPenalty ?? false } // Check if hasPenalty is true
+                    case .penaltyEvidance:
+                        print("Do Nothing")
+                       // self.penaltyBookingsEvidance = bookings.flatMap { $0.penalties } // Check if hasPenalty is true
                     }
                     
                     self.tblVw.reloadData()
@@ -310,8 +411,46 @@ extension HomeUserViewController {
                 self.historyBookings.removeAll()
                 self.penaltyBookings.removeAll()
                 self.tblVw.reloadData()
-               // self.vwNoRecord.isHidden = false
+                self.vwNoRecord.isHidden = false
                 //  objAlert.showAlert(message: message, title: "", controller: self)
+            }
+        } failure: { error in
+            objWebServiceManager.hideIndicator()
+            objAlert.showAlert(message: "Request failed. Please try again.", title: "", controller: self)
+        }
+    }
+    
+    
+    func call_WsStopBooking(strBookingID:String) {
+        if !objWebServiceManager.isNetworkAvailable() {
+            objAlert.showAlert(message: "No Internet Connection", title: "Alert", controller: self)
+            return
+        }
+        
+        objWebServiceManager.showIndicator()
+        
+        let params: [String: Any] = [
+            "booking_id": strBookingID,
+            "status": "Complete"
+        ]
+        
+        print(params)
+        
+        objWebServiceManager.requestPost(strURL: WsUrl.url_ChnageBookingStatus, queryParams: [:], params: params, strCustomValidation: "", showIndicator: false) { response in
+            objWebServiceManager.hideIndicator()
+            
+            print(response)
+            
+            if let status = response["status"] as? Int, status == MessageConstant.k_StatusCode {
+                if let resultArray = response["result"] as? [String: Any] {
+                    self.addSubviewStop(isAdd: false)
+                    self.call_WsGetBooking()
+                    
+                } else {
+                    
+                }
+            } else {
+               
             }
         } failure: { error in
             objWebServiceManager.hideIndicator()
@@ -350,6 +489,24 @@ extension HomeUserViewController {
                 self.subVwStop.frame.origin.y = self.view.frame.height
             } completion: { y in
                 self.subVwStop.removeFromSuperview()
+            }
+        }
+    }
+    
+    
+    func addSubviewEvidance(isAdd: Bool) {
+        if isAdd {
+            self.subVwEvidance.frame = CGRect(x: 0, y: -(self.view.frame.height), width: self.view.frame.width, height: self.view.frame.height)
+            self.view.addSubview(subVwEvidance)
+            
+            UIView.animate(withDuration: 0.5) {
+                self.subVwEvidance.frame.origin.y = 0
+            }
+        } else {
+            UIView.animate(withDuration: 0.3) {
+                self.subVwEvidance.frame.origin.y = self.view.frame.height
+            } completion: { y in
+                self.subVwEvidance.removeFromSuperview()
             }
         }
     }

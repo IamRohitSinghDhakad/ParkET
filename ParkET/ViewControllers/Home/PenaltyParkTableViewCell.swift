@@ -16,6 +16,7 @@ class PenaltyParkTableViewCell: UITableViewCell {
     @IBOutlet weak var lblTotalPaidAmount: UILabel!
     @IBOutlet weak var vwPayAmountButton: UIView!
     @IBOutlet weak var btnPayNow: UIButton!
+    @IBOutlet weak var btnOnShowEvidance: UIButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()

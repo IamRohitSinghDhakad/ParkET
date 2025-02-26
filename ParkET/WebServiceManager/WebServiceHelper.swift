@@ -11,6 +11,7 @@ import UIKit
 
 
 let BASE_URL = "https://ambitious.in.net/Shubham/parket/index.php/api/"//Local
+let BASE_URL_Image = "https://ambitious.in.net/Shubham/parket/"
 //let BASE_URL = "https://thebubbleapp.com/index.php/api/"//Live
 
 
@@ -29,12 +30,16 @@ struct WsUrl{
     static let url_GetZone = BASE_URL + "get_zone"
     static let url_GetEstimate = BASE_URL + "get_estimate"
     static let url_CheckPayStatus = BASE_URL + "check_pay_status"
+    
     static let url_BookParking = BASE_URL + "book_parking"
+    static let url_ExtendBooking = BASE_URL + "extend_booking"
+    static let url_ChnageBookingStatus = BASE_URL + "change_booking_status"
+    static let url_Add_Payment = BASE_URL + "add_payment"
     static let url_verify_otp = BASE_URL + "verify_otp"
     static let url_AddFine = BASE_URL + "add_fine"
     
     
-    static let url_GetFavorite = BASE_URL + "get_favorite"
+   
     static let url_DeletePost = BASE_URL + "delete_post"
     static let url_AddFavorite = BASE_URL + "add_favorite"
     static let url_GetRatings = BASE_URL + "get_ratings"

@@ -397,7 +397,15 @@ extension ParkViewController {
                         vc.strIsCommingFrom = "Booking"
                         self.navigationController?.pushViewController(vc, animated: true)
                     }else{
-                       
+                        let vc = self.storyboard?.instantiateViewController(withIdentifier: "PaymentMethodViewController")as! PaymentMethodViewController
+                        vc.objZoneModel = self.objZoneModel
+                        vc.objVehicleModel = self.objVehicleModel
+                        vc.strZone = self.tfZone.text!
+                        vc.carNumber = self.tfSelectVehicle.text!
+                        vc.hours = self.tfHours.text!
+                        vc.strZoneID = self.strSelectedZoneID
+                        vc.strIsCommingFrom = "Direct"
+                        self.navigationController?.pushViewController(vc, animated: true)
                         
                         
                     }
