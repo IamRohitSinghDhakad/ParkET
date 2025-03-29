@@ -4144,7 +4144,7 @@ Sessions Right Now</string>
                                                             <constraint firstItem="FvE-5G-r3f" firstAttribute="top" secondItem="1gl-tb-1Q4" secondAttribute="top" id="m8n-le-XHT"/>
                                                         </constraints>
                                                     </view>
-                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Email" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kkQ-82-Nmn">
+                                                    <textField opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="248" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kkQ-82-Nmn">
                                                         <rect key="frame" x="20" y="100" width="248" height="25"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="25" id="Yoo-fk-W2o"/>
@@ -6229,7 +6229,7 @@ instructin on your email account</string>
         </scene>
     </scenes>
     <resources>
-        <image name="active" width="30" height="31.5"/>
+        <image name="active" width="44" height="46"/>
         <image name="add" width="128" height="128"/>
         <image name="back" width="46" height="36"/>
         <image name="background" width="720" height="1280"/>
